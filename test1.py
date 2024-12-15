@@ -19,11 +19,11 @@ user_states = {}
 user_data = {}
 
 # مسیر وب‌هوک
-@flask_app.route("/", methods=["POST"])
-def webhook():
+@app.route("/", methods=["POST"])
+async def webhook():
     json_data = request.get_json()
     update = Update.de_json(json_data, telegram_app.bot)
-    telegram_app.process_update(update)
+    await telegram_app.process_update(update)
     return "OK"
 
 # تابع ذخیره داده‌ها در فایل JSON

@@ -3,6 +3,24 @@ from datetime import datetime
 from telegram import Update, ReplyKeyboardMarkup
 from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters, ContextTypes
 
+from flask import Flask, request
+
+app = Flask(__name__)
+
+# ربات تلگرام
+BOT_TOKEN = 8099865863:AAHxaeulviM5E5tlpB-cQiol9bymdlj8Cr0
+application = ApplicationBuilder().token(BOT_TOKEN).build()
+
+@app.route("/", methods=["POST"])
+def webhook():
+    json_data = request.get_json()
+    update = Update.de_json(json_data, application.bot)
+    application.process_update(update)
+    return "OK"
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)
+    
 # متغیرها برای ذخیره حالت کاربر و داده‌ها
 user_states = {}
 user_data = {}
